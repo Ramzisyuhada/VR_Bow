@@ -30,7 +30,6 @@ public class ArrowSpawner : MonoBehaviour
     {
         if (_bow.isSelected && !_arrowNotched)
         {
-            Debug.Log("test");
             _arrowNotched = true;
             StartCoroutine("DelayedSpawn");
         }

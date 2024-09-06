@@ -10,10 +10,18 @@ public class Arrow : MonoBehaviour
     private Rigidbody rb;
     private bool _inAir = false;    
     private Vector3 _LastPosition = Vector3.zero;
-    void Start()
+
+    public ParticleSystem _particle;
+    public TrailRenderer _trail;
+     
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
+     /*   _particle = GetComponent<ParticleSystem>();
+        _trail = GetComponent<TrailRenderer>();*/
         PullInteraction.PullAction += Release;
+        Stop();
+
     }
     private void OnDestroy()
     {
@@ -29,6 +37,9 @@ public class Arrow : MonoBehaviour
         Vector3 force = transform.forward * value * speed;
         rb.AddForce(force,ForceMode.Impulse);
         StartCoroutine(Rotasidenganvelocity());
+
+        _particle.Play();
+        _trail.emitting = true;
 
 
     }
@@ -73,7 +84,11 @@ public class Arrow : MonoBehaviour
     {
         _inAir = false;
         SetPhysics(false);
-        
+
+        _particle.Stop();
+        _trail.emitting = false;
+
+
     }
 
     private void SetPhysics(bool usePhysics)
